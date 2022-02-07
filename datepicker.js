@@ -223,10 +223,10 @@ class DatePicker extends Component {
       this.setState({ isPicker: false });
     } else {
       if (this.props.mode === "datetime") {
-        const formatArray = (this.props.format || FORMATS[1]).split(" ");
-        const newTime = Moment(time).format(formatArray[1]);
-        const newDate = this.state.newDate.format(formatArray[0]);
-        const newDateTime = `${newDate} ${newTime}`;
+        const hour = Moment(time).get('hour');
+        const minute = Moment(time).get('minute');
+        const selectedDateTime = Moment(this.state.newDate).set('hour', hour).set('minute', minute)
+        const newDateTime = Moment(selectedDateTime).format(this.props.format || FORMATS[1]);
         this.setState({
           date: newDateTime,
           isPicker: false,
