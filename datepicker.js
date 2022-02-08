@@ -310,6 +310,12 @@ class DatePicker extends Component {
       disabled && customStyles.disabled,
     ];
 
+    const shouldShowNewTimePicker = Platform.OS === "android" && 
+    (mode === "time" && this.state.isPicker) || (mode === "datetime" && this.state.isPicker && this.state.newDate !== "");
+
+    const shouldShowNewDatePicker = Platform.OS === "android" &&
+    (mode === "date" && this.state.isPicker) || (mode === "datetime" && this.state.isPicker && this.state.newDate === "");
+
     return (
       <TouchableComponent
         style={[Style.dateTouch, style]}
@@ -411,10 +417,7 @@ class DatePicker extends Component {
               </View>
             </Modal>
           )}
-          {(mode === "time" && this.state.isPicker) ||
-          (mode === "datetime" &&
-            this.state.isPicker &&
-            this.state.newDate !== "") ? (
+          {shouldShowNewTimePicker ? (
             <DateTimePicker
               mode="time"
               value={this.state.date}
@@ -422,10 +425,7 @@ class DatePicker extends Component {
               display="clock"
             />
           ) : null}
-          {(mode === "date" && this.state.isPicker) ||
-          (mode === "datetime" &&
-            this.state.isPicker &&
-            this.state.newDate === "") ? (
+          {shouldShowNewDatePicker ? (
             <DateTimePicker
               mode="date"
               minimumDate={minDate && this.getDate(minDate)}
